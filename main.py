@@ -47,12 +47,6 @@ with st.sidebar:
                 st.balloons()
                 st.session_state.balloons_shown = True
 
-    st.markdown("---")
-    st.markdown("**Sample Questions:**")
-    st.code("How many rows are there?")
-    st.code("What are the unique values in column X?")
-    st.code("Show summary statistics")
-
 # Main content
 st.title("📊 CSV Data Analyst")
 st.markdown("Ask questions about your data and get AI-powered insights.")
