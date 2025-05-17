@@ -1,5 +1,5 @@
 import streamlit as st
-from csv_agent import create_csv_agent
+from csv_agent import create_csv_agent, CSV_PROMPT_PREFIX, CSV_PROMPT_SUFFIX
 import pandas as pd
 import time
 
@@ -88,7 +88,7 @@ if st.session_state.df is not None:
         else:
             with st.spinner("🔍 Analyzing your data..."):
                 try:
-                    response = st.session_state.agent.invoke(question)
+                    response = st.session_state.agent.invoke(CSV_PROMPT_PREFIX + question + CSV_PROMPT_SUFFIX)
                     st.markdown("### 📝 Answer")
                     st.markdown(response['output'])
                     
