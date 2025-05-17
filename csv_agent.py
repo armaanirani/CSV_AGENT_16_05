@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 import pandas as pd
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
-from langchain_experimental.agents.agent_toolkits import create_csv_agent, create_pandas_dataframe_agent
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 
 
 # Load environment variables from .env file
@@ -27,19 +26,15 @@ llm = ChatGroq(
 #     api_key=OPENAI_API_KEY
 # )
 
-# Read the CSV file and handle missing values
-df = pd.read_csv("./data/Architecture_firms_india.csv")
+def create_csv_agent(dataframe):
+    """Create a pandas dataframe agent with the given dataframe"""
+    return create_pandas_dataframe_agent(
+        llm=llm,
+        df=dataframe,
+        verbose=True,
+        allow_dangerous_code=True
+    )
 
-# Create the CSV agent
-agent = create_pandas_dataframe_agent(
-    llm=llm,
-    df=df,
-    verbose=True,
-    allow_dangerous_code=True
-)
-
-# response = agent.invoke(input="How many firms are located in India?")
-# print(response)
 
 CSV_PROMPT_PREFIX = """
 First set the pandas display options to show all the columns,
@@ -65,7 +60,7 @@ In the explanation, mention the column names that you used to get
 to the final answer.
 """
 
-QUESTION = "How many firms are located in India and have no websites?"
+# QUESTION = "How many firms are located in India and have no websites?"
 
-response = agent.invoke(CSV_PROMPT_PREFIX + QUESTION + CSV_PROMPT_SUFFIX)
-print(f"Response: {response['output']}")
+# response = agent.invoke(CSV_PROMPT_PREFIX + QUESTION + CSV_PROMPT_SUFFIX)
+# print(f"Response: {response['output']}")
